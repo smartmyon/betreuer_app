@@ -69,12 +69,18 @@ class LoginPage extends StatelessWidget {
                 child: Text("Einlogen")),
           ),
           SizedBox(height: 20),
-          Text("oder"),
+          SizedBox(
+            height: 20,
+            child: Text("oder"),
+          ),
+          SizedBox(height: 5),
           TextButton(
               onPressed: () {
                 appState.gotosingupfunction();
               },
-              child: Text("registrieren")),
+              child: Text(
+                "registrieren",
+              )),
         ],
       ),
     ));
