@@ -30,6 +30,15 @@ class MyAppState extends ChangeNotifier {
   void loginfunction() {}
 
   void gotosingupfunction() {}
+
+  void changeuser() {
+    if (user == "teacher") {
+      user = "student";
+    } else if (user == "student") {
+      user = "teacher";
+    }
+    notifyListeners();
+  }
 }
 
 class LoginPage extends StatelessWidget {
@@ -60,6 +69,20 @@ class LoginPage extends StatelessWidget {
           ),
           SizedBox(height: 15),
           SizedBox(
+            height: 20,
+            child: Text("Dozent:in oder Student:in"),
+          ),
+          SizedBox(
+            height: 40,
+            child: Switch(
+              value: appState.user == "student",
+              activeColor: Colors.red,
+              onChanged: (bool value) {
+                appState.changeuser();
+              },
+            ),
+          ),
+          SizedBox(
             height: 50,
             width: 120,
             child: ElevatedButton(
@@ -68,19 +91,24 @@ class LoginPage extends StatelessWidget {
                 },
                 child: Text("Einlogen")),
           ),
-          SizedBox(height: 20),
           SizedBox(
             height: 20,
-            child: Text("oder"),
           ),
-          SizedBox(height: 5),
-          TextButton(
-              onPressed: () {
-                appState.gotosingupfunction();
-              },
-              child: Text(
-                "registrieren",
-              )),
+          SizedBox(
+            height: 20,
+            child: Text(
+              "oder",
+            ),
+          ),
+          SizedBox(
+            height: 50,
+            width: 120,
+            child: TextButton(
+                onPressed: () {
+                  appState.gotosingupfunction();
+                },
+                child: Text("Registrieren")),
+          ),
         ],
       ),
     ));
