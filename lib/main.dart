@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: SignupPage(),
+        home: LoginPage(),
       ),
     );
   }
@@ -110,7 +110,10 @@ class LoginPage extends StatelessWidget {
             width: 120,
             child: TextButton(
                 onPressed: () {
-                  appState.gotosingupfunction();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignupPage()),
+                  );
                 },
                 child: Text("Registrieren")),
           ),
@@ -201,7 +204,28 @@ class SignupPage extends StatelessWidget {
                   width: 120,
                   height: 40,
                   child: ElevatedButton(
-                      onPressed: () {}, child: Text("Registriern")))
+                      onPressed: () {}, child: Text("Registriern"))),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 20,
+                child: Text(
+                  "oder",
+                ),
+              ),
+              SizedBox(
+                height: 40,
+                width: 160,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Zurück zur Loginseite",
+                      textAlign: TextAlign.center,
+                    )),
+              ),
             ])));
   }
 }
