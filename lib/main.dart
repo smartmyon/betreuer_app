@@ -27,9 +27,12 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   var user = "teacher";
 
-  void loginfunction() {}
-
-  void gotosingupfunction() {}
+  void loginfunction(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfilePage()),
+    );
+  }
 
   void changeuser() {
     if (user == "teacher") {
@@ -92,7 +95,7 @@ class LoginPage extends StatelessWidget {
             width: 120,
             child: ElevatedButton(
                 onPressed: () {
-                  appState.loginfunction();
+                  appState.loginfunction(context);
                 },
                 child: Text("Einlogen")),
           ),
@@ -204,7 +207,10 @@ class SignupPage extends StatelessWidget {
                   width: 120,
                   height: 40,
                   child: ElevatedButton(
-                      onPressed: () {}, child: Text("Registriern"))),
+                      onPressed: () {
+                        appState.loginfunction(context);
+                      },
+                      child: Text("Registriern"))),
               SizedBox(
                 height: 20,
               ),
@@ -227,5 +233,66 @@ class SignupPage extends StatelessWidget {
                     )),
               ),
             ])));
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Profile page')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            SizedBox(
+              height: 88,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                ),
+                child: Text(
+                  'Was wollen Sie?',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Ausloggen'),
+              onTap: () {
+                while (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 100,
+                ),
+                SizedBox(
+                  width: 250,
+                  height: 250,
+                  child: Image.asset('assets/images/profileavatar.png'),
+                ),
+                Text(
+                  "Name Surname",
+                  style: TextStyle(fontSize: 30),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }
