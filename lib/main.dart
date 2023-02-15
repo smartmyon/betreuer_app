@@ -252,13 +252,23 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.green,
                 ),
                 child: Text(
-                  'Was wollen Sie?',
+                  'Menü',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                   ),
                 ),
               ),
+            ),
+            ListTile(
+              leading: Icon(Icons.pages),
+              title: Text('Betreuer'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BetreuerPage()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),
@@ -293,6 +303,85 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
           )),
+    );
+  }
+}
+
+class BetreuerPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Betreuern')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            SizedBox(
+              height: 88,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                ),
+                child: Text(
+                  'Menü',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.pages),
+              title: Text('Betreuer'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BetreuerPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Ausloggen'),
+              onTap: () {
+                while (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Table(
+          border: TableBorder.all(),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: <TableRow>[
+            TableRow(
+              children: <Widget>[
+                TableCell(
+                  child: Text("Johannes"),
+                ),
+                TableCell(
+                  child: Text("Schmidt"),
+                ),
+              ],
+            ),
+            TableRow(
+              children: <Widget>[
+                TableCell(
+                  child: Text("Jan"),
+                ),
+                TableCell(
+                  child: Text("Mueller"),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
