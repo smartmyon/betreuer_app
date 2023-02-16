@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'dart:developer';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +30,14 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   var user = "teacher";
 
+  var myname = "Maksym";
+  var mysurname = "Olshanskyy";
+
+  var betreuern = [
+    {"Vorname": "Johannes", "Nachname": "Schmidt"},
+    {"Vorname": "Jan", "Nachname": "Mueller"}
+  ];
+
   void loginfunction(BuildContext context) {
     Navigator.push(
       context,
@@ -45,6 +56,29 @@ class MyAppState extends ChangeNotifier {
 
   void changeuserto(String usertype) {
     user = usertype;
+    notifyListeners();
+  }
+
+  void entryinthetable(table, object) {
+    table.add(object);
+  }
+
+  void deletefromthetable(table, object) {
+    table.removeWhere((element) {
+      return mapEquals(element, object);
+    });
+  }
+
+  void entrymyself() {
+    if (betreuern.contains({"Vorname": "Maksym", "Nachname": "Olshanskyy"})) {
+    } else {
+      entryinthetable(betreuern, {"Vorname": myname, "Nachname": mysurname});
+      notifyListeners();
+    }
+  }
+
+  void deletemyself() {
+    deletefromthetable(betreuern, {"Vorname": myname, "Nachname": mysurname});
     notifyListeners();
   }
 }
@@ -261,6 +295,16 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.pages),
               title: Text('Betreuer'),
               onTap: () {
@@ -310,6 +354,7 @@ class ProfilePage extends StatelessWidget {
 class BetreuerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
     return Scaffold(
       appBar: AppBar(title: const Text('Betreuern')),
       drawer: Drawer(
@@ -330,6 +375,16 @@ class BetreuerPage extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.pages),
@@ -355,30 +410,42 @@ class BetreuerPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Table(
-          border: TableBorder.all(),
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: <TableRow>[
-            TableRow(
-              children: <Widget>[
-                TableCell(
-                  child: Text("Johannes"),
-                ),
-                TableCell(
-                  child: Text("Schmidt"),
-                ),
-              ],
+        child: Column(
+          children: [
+            Table(
+              border: TableBorder.all(),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: List.generate(appState.betreuern.length, (i) {
+                var name = appState.betreuern[i]["Vorname"];
+                var surname = appState.betreuern[i]["Nachname"];
+                return TableRow(
+                  children: <Widget>[
+                    TableCell(child: Text("$name")),
+                    TableCell(
+                      child: Text("$surname"),
+                    )
+                  ],
+                );
+              }),
             ),
-            TableRow(
-              children: <Widget>[
-                TableCell(
-                  child: Text("Jan"),
-                ),
-                TableCell(
-                  child: Text("Mueller"),
-                ),
-              ],
+            SizedBox(
+              height: 20,
             ),
+            Row(
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      appState.entrymyself();
+                    },
+                    child: Text("sich eintragen")),
+                SizedBox(width: 20),
+                ElevatedButton(
+                    onPressed: () {
+                      appState.deletemyself();
+                    },
+                    child: Text("sich löschen"))
+              ],
+            )
           ],
         ),
       ),
