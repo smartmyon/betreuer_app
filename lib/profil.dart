@@ -1,10 +1,12 @@
 import 'package:betreuer_app/drawer.dart';
-import 'package:betreuer_app/lectures.dart';
+import 'package:betreuer_app/main.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
     return Scaffold(
       appBar: AppBar(title: const Text('Profile page')),
       drawer: createdrawer(context),
@@ -23,9 +25,62 @@ class ProfilePage extends StatelessWidget {
                   child: Image.asset('assets/images/profileavatar.png'),
                 ),
                 Text(
-                  "Name Surname",
+                  "Maksym Olshanskyy",
                   style: TextStyle(fontSize: 30),
                 ),
+                SizedBox(height: 10),
+                (() {
+                  if (appState.user == "teacher") {
+                    return Table(
+                      border: TableBorder.all(),
+                      columnWidths: const <int, TableColumnWidth>{
+                        0: FlexColumnWidth(),
+                        1: IntrinsicColumnWidth(),
+                      },
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
+                      children:
+                          List.generate(appState.arbeiten.length + 1, (i) {
+                        if (i < appState.arbeiten.length) {
+                          return TableRow(
+                            children: <Widget>[
+                              TableCell(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(appState.arbeiten[i]["Thema"]!),
+                              )),
+                              TableCell(
+                                child: IconButton(
+                                  icon: Icon(Icons.cancel),
+                                  onPressed: () {},
+                                ),
+                              )
+                            ],
+                          );
+                        } else {
+                          return TableRow(children: <Widget>[
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextField(
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                        labelText: "entry here")),
+                              ),
+                            ),
+                            TableCell(
+                                child: IconButton(
+                              icon: Icon(Icons.add),
+                              onPressed: () {},
+                            ))
+                          ]);
+                        }
+                      }),
+                    );
+                  } else {
+                    return Text("student table");
+                  }
+                })(),
               ],
             ),
           )),

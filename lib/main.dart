@@ -39,6 +39,22 @@ class MyAppState extends ChangeNotifier {
     {"Vorname": "Jan", "Nachname": "Mueller"}
   ];
 
+  var arbeiten = [
+    {
+      "Thema": "Analyse der Sicherheit von Cloud Computing",
+      "Dozent": "Maksym Olshanskyy"
+    },
+    {
+      "Thema":
+          "Technologieauswahl und Projektplanung zur Absatzsteigerung eines Online-Shops Fallstudie Data Analytics und Big Data",
+      "Dozent": "Maksym Olshanskyy"
+    },
+    {
+      "Thema": "Programmentwurf. Spielprogramm Käsekästchen",
+      "Dozent": "Maksym Olshanskyy"
+    }
+  ];
+
   void changeuser() {
     if (user == "teacher") {
       user = "student";
