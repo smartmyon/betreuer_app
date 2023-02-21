@@ -71,24 +71,29 @@ class MyAppState extends ChangeNotifier {
 
   void entryinthetable(table, object) {
     table.add(object);
+    notifyListeners();
   }
 
   void deletefromthetable(table, object) {
     table.removeWhere((element) {
       return mapEquals(element, object);
     });
+    notifyListeners();
+  }
+
+  void deletefromthetablewithindex(table, int index) {
+    table.removeAt(index);
+    notifyListeners();
   }
 
   void entrymyself() {
     if (betreuern.contains({"Vorname": "Maksym", "Nachname": "Olshanskyy"})) {
     } else {
       entryinthetable(betreuern, {"Vorname": myname, "Nachname": mysurname});
-      notifyListeners();
     }
   }
 
   void deletemyself() {
     deletefromthetable(betreuern, {"Vorname": myname, "Nachname": mysurname});
-    notifyListeners();
   }
 }

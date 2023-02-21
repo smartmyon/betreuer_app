@@ -52,33 +52,60 @@ class ProfilePage extends StatelessWidget {
                               TableCell(
                                 child: IconButton(
                                   icon: Icon(Icons.cancel),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    appState.deletefromthetablewithindex(
+                                        appState.arbeiten, i);
+                                  },
                                 ),
                               )
                             ],
                           );
                         } else {
+                          final myController = TextEditingController();
                           return TableRow(children: <Widget>[
                             TableCell(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextField(
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                        labelText: "entry here")),
+                                  obscureText: false,
+                                  decoration: null,
+                                  controller: myController,
+                                ),
                               ),
                             ),
                             TableCell(
                                 child: IconButton(
                               icon: Icon(Icons.add),
-                              onPressed: () {},
+                              onPressed: () {
+                                appState.entryinthetable(appState.arbeiten, {
+                                  "Thema": myController.text,
+                                  "Dozent": "Maksym Olshanskyy"
+                                });
+                              },
                             ))
                           ]);
                         }
                       }),
                     );
                   } else {
-                    return Text("student table");
+                    return Table(
+                        border: TableBorder.all(),
+                        columnWidths: const <int, TableColumnWidth>{
+                          0: FlexColumnWidth(),
+                        },
+                        defaultVerticalAlignment:
+                            TableCellVerticalAlignment.middle,
+                        children: List.generate(appState.arbeiten.length, (i) {
+                          return TableRow(
+                            children: <Widget>[
+                              TableCell(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(appState.arbeiten[i]["Thema"]!),
+                              )),
+                            ],
+                          );
+                        }));
                   }
                 })(),
               ],
